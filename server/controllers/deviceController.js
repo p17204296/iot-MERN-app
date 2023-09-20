@@ -1,4 +1,5 @@
 const deviceModel = require("../models/deviceModel");
+const industryModel = require("../models/industryModel");
 const mongoose = require("mongoose");
 
 // Get all devices
@@ -13,14 +14,13 @@ exports.getAllDevices = async (req, res) => {
       linkedIndustry = "All", // Filter by linked industry (default: "All")
     } = req.query;
 
-    // List of available linked industry options
-    const linkedIndustryOptions = [
-      "Agriculture",
-      "Security",
-      "Logistics",
-      "Hospitality",
-      "Healthcare",
-    ];
+    // Fetch the list of available industry names from the "industries" collection
+    const industryOptions = await industryModel.find({}, "industryName");
+
+    // Extract just the industry names from the fetched options
+    const linkedIndustryOptions = industryOptions.map(
+      (option) => option.industryName
+    );
 
     // Determine industries to filter based on query
     const industriesToFilter =
@@ -61,7 +61,7 @@ exports.getAllDevices = async (req, res) => {
     };
 
     // Send a successful response with status 200
-    res.status(200).json(response);
+    res.status(201).json(response);
   } catch (err) {
     // Handle errors, log them, and send a 500 (Internal Server Error) response
     console.error(err);
