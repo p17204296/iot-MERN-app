@@ -61,7 +61,7 @@ exports.getAllDevices = async (req, res) => {
     };
 
     // Send a successful response with status 200
-    res.status(201).json(response);
+    res.status(200).json(response);
   } catch (err) {
     // Handle errors, log them, and send a 500 (Internal Server Error) response
     console.error(err);

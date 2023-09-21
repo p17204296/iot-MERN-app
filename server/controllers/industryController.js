@@ -43,7 +43,7 @@ exports.getAllIndustries = async (req, res) => {
     };
 
     // Send a successful response with status 200
-    res.status(201).json(response);
+    res.status(200).json(response);
   } catch (err) {
     // Handle errors, log them, and send a 500 (Internal Server Error) response
     console.error(err);
@@ -75,7 +75,7 @@ exports.createIndustry = async (req, res) => {
   // add to the database
   try {
     const industry = await industryModel.create({ industryName });
-    res.status(200).json(industry);
+    res.status(201).json(industry);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

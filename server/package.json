@@ -4,7 +4,9 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "test-init": "jasmine init",
+    "test": "jasmine"
   },
   "keywords": [],
   "author": "",
@@ -13,7 +15,12 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
+    "mongodb-memory-server": "^8.15.1",
     "mongoose": "^6.3.5",
     "nodemon": "^2.0.16"
+  },
+  "devDependencies": {
+    "jasmine": "^5.1.0",
+    "supertest": "^6.3.3"
   }
 }
