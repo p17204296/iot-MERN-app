@@ -4,6 +4,11 @@ const industryModel = require("../models/industryModel");
 const deviceModel = require("../models/deviceModel");
 const mongoose = require("mongoose");
 
+const HTTP_STATUS_OK = 200;
+const HTTP_STATUS_CREATED = 201;
+const HTTP_STATUS_NOT_FOUND = 404;
+
+// Set up the database connection before running tests
 beforeAll(async () => {
   console.log("\n ---------- Device Controller Tests: ---------- \n ");
   await mongoose.disconnect();
@@ -14,9 +19,16 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  // Close the Mongoose connection and stop the MongoDB server
   await mongoose.disconnect();
 });
+
+const createIndustry = async (industryName) => {
+  return industryModel.create({ industryName });
+};
+
+const createDevice = async (deviceData) => {
+  return deviceModel.create(deviceData);
+};
 
 describe("Device Controller Unit Tests", () => {
   beforeEach(async () => {
@@ -26,22 +38,19 @@ describe("Device Controller Unit Tests", () => {
   });
 
   it("should get all devices", async () => {
-    // Create a new industry to link with the device
-    const industry = await industryModel.create({
-      industryName: "Test Industry",
-    });
-    // Create some test devices in the database
-    const device1 = await deviceModel.create({
+    // Create an industry and three devices for testing
+    const industry = await createIndustry("Test Industry");
+    await createDevice({
       deviceName: "Device 1",
       fee: 100,
       linkedIndustry: industry.industryName,
     });
-    const device2 = await deviceModel.create({
+    await createDevice({
       deviceName: "Device 2",
       fee: 200,
       linkedIndustry: "Test Industry",
     });
-    const device3 = await deviceModel.create({
+    await createDevice({
       deviceName: "Device 3",
       fee: 300,
       linkedIndustry: "Test Industry",
@@ -50,23 +59,18 @@ describe("Device Controller Unit Tests", () => {
     // Make a GET request to retrieve all devices
     const response = await request(app).get("/api/devices");
 
-    // Verify the response status code and the number of devices returned
-    expect(response.status).toBe(200);
-    expect(Array.isArray(response.body.devices)).toBe(true);
-    expect(response.body.devices.length).toBe(3);
-
-    // Verify the content of the first device in the response
-    expect(response.body.devices[0].deviceName).toBe("Device 1");
-    expect(response.body.devices[0].fee).toBe(100);
+    // Verify the response status code and device data
+    expect(response.status).toBe(HTTP_STATUS_OK);
+    const devices = response.body.devices;
+    expect(devices.length).toBe(3);
+    expect(devices[0].deviceName).toBe("Device 1");
+    expect(devices[0].fee).toBe(100);
   });
 
   it("should get a single device by ID", async () => {
-    // Create a new industry to link with the device
-    const industry = await industryModel.create({
-      industryName: "Test Industry",
-    });
-    // Create a new device in the database
-    const newDevice = await deviceModel.create({
+    // Create an industry and a new device for testing
+    const industry = await createIndustry("Test Industry");
+    const newDevice = await createDevice({
       deviceName: "New Device",
       fee: 400,
       linkedIndustry: industry.industryName,
@@ -75,8 +79,8 @@ describe("Device Controller Unit Tests", () => {
     // Make a GET request to retrieve the device by its ID
     const response = await request(app).get(`/api/devices/${newDevice._id}`);
 
-    // Verify the response status code and the device data
-    expect(response.status).toBe(200);
+    // Verify the response status code and device data
+    expect(response.status).toBe(HTTP_STATUS_OK);
     expect(response.body.deviceName).toBe("New Device");
     expect(response.body.fee).toBe(400);
   });
@@ -89,17 +93,128 @@ describe("Device Controller Unit Tests", () => {
     );
 
     // Verify the response status code and error message
-    expect(response.status).toBe(404);
+    expect(response.status).toBe(HTTP_STATUS_NOT_FOUND);
     expect(response.body.error).toBe("No such device");
   });
 
-  it("should create a new device", async () => {
-    // Create a new industry to link with the device
-    const industry = await industryModel.create({
-      industryName: "Test Industry",
+  it("should get all devices sorted by fee in descending order", async () => {
+    // Create an industry and two devices with different fees
+    const industry = await createIndustry("Test Industry");
+    await createDevice({
+      deviceName: "Device with Fee 100",
+      fee: 100,
+      linkedIndustry: industry.industryName,
+    });
+    await createDevice({
+      deviceName: "Device with Fee 200",
+      fee: 200,
+      linkedIndustry: "Test Industry",
     });
 
-    // Create a test device object
+    // Make a GET request to retrieve all devices sorted by fee in descending order
+    const response = await request(app)
+      .get("/api/devices")
+      .query({ sort: "fee,desc" });
+
+    // Verify the response status code and device order
+    expect(response.status).toBe(HTTP_STATUS_OK);
+    const devices = response.body.devices;
+    expect(devices[0].fee).toBe(200);
+    expect(devices[1].fee).toBe(100);
+  });
+
+  // Test case: Retrieve devices with a search query
+  it("should get devices with a search query", async () => {
+    // Create an industry and two devices with different names
+    const industry = await createIndustry("Test Industry");
+    await createDevice({
+      deviceName: "Test Device 1",
+      fee: 100,
+      linkedIndustry: industry.industryName,
+    });
+    await createDevice({
+      deviceName: "Device with Keyword",
+      fee: 200,
+      linkedIndustry: "Test Industry",
+    });
+
+    // Make a GET request to retrieve devices with a search query
+    const response = await request(app)
+      .get("/api/devices")
+      .query({ search: "Keyword" });
+
+    // Verify the response status code and device data
+    expect(response.status).toBe(HTTP_STATUS_OK);
+    const devices = response.body.devices;
+    expect(devices.length).toBe(1);
+    expect(devices[0].deviceName).toEqual("Device with Keyword");
+    expect(devices[0].fee).toEqual(200);
+  });
+
+  it("should get devices with pagination (page and limit)", async () => {
+    // Create an industry and multiple test devices
+    const industry = await createIndustry("Test Industry");
+    await createDevice({
+      deviceName: "Test Device 1",
+      fee: 100,
+      linkedIndustry: industry.industryName,
+    });
+    await createDevice({
+      deviceName: "Test Device 2",
+      fee: 200,
+      linkedIndustry: "Test Industry",
+    });
+    await createDevice({
+      deviceName: "Test Device 3",
+      fee: 300,
+      linkedIndustry: "Test Industry",
+    });
+
+    // Make a GET request to retrieve devices with pagination
+    const response = await request(app)
+      .get("/api/devices")
+      .query({ page: 2, limit: 1 });
+
+    // Verify the response status code and device data
+    expect(response.status).toBe(HTTP_STATUS_OK);
+    const devices = response.body.devices;
+    expect(devices.length).toBe(1);
+    expect(devices[0].deviceName).toBe("Test Device 2");
+  });
+
+  it("should get devices filtered by linkedIndustry", async () => {
+    // Create two industries and devices with different linked industries
+    const industry1 = await createIndustry("Test Industry 1");
+    const industry2 = await createIndustry("Test Industry 2");
+    await createDevice({
+      deviceName: "Device in Industry 1",
+      fee: 100,
+      linkedIndustry: industry1.industryName,
+    });
+    await createDevice({
+      deviceName: "Device in Industry 2",
+      fee: 200,
+      linkedIndustry: industry2.industryName,
+    });
+
+    // Make a GET request to retrieve devices filtered by linkedIndustry
+    const response = await request(app)
+      .get("/api/devices")
+      .query({ linkedIndustry: industry2.industryName });
+
+    // Verify the response status code and device data
+    expect(response.status).toBe(HTTP_STATUS_OK);
+    const devices = response.body.devices;
+    expect(devices.length).toBe(1);
+    expect(devices[0].deviceName).toEqual("Device in Industry 2");
+    expect(devices[0].fee).toEqual(200);
+  });
+
+  it("should create a new device", async () => {
+    // Create an industry for the new device
+    const industry = await createIndustry("Test Industry");
+
+    // Define the data for the new device
     const deviceData = {
       deviceName: "Test Device",
       fee: 100,
@@ -109,8 +224,8 @@ describe("Device Controller Unit Tests", () => {
     // Make a POST request to create a new device
     const response = await request(app).post("/api/devices").send(deviceData);
 
-    // Verify the response status code and structure
-    expect(response.status).toBe(201);
+    // Verify the response status code and device data
+    expect(response.status).toBe(HTTP_STATUS_CREATED);
     expect(response.body.deviceName).toBe("Test Device");
     expect(response.body.fee).toBe(100);
 
@@ -120,18 +235,17 @@ describe("Device Controller Unit Tests", () => {
   });
 
   it("should update an existing device", async () => {
-    const industry = await industryModel.create({
-      industryName: "Test Industry",
-    });
+    // Create an industry for the existing device
+    const industry = await createIndustry("Test Industry");
 
     // Create an existing device in the database
-    const existingDevice = await deviceModel.create({
+    const existingDevice = await createDevice({
       deviceName: "Existing Device",
       fee: 200,
       linkedIndustry: industry.industryName,
     });
 
-    // Update data for the existing device
+    // Define the updated data for the existing device
     const updatedData = {
       deviceName: "Updated Device",
       fee: 150,
@@ -143,7 +257,7 @@ describe("Device Controller Unit Tests", () => {
       .send(updatedData);
 
     // Verify the response status code
-    expect(response.status).toBe(200);
+    expect(response.status).toBe(HTTP_STATUS_OK);
 
     // Ensure the device in the test database is updated
     const updatedDevice = await deviceModel.findById(existingDevice._id);
@@ -154,7 +268,7 @@ describe("Device Controller Unit Tests", () => {
 
   it("should delete an existing device", async () => {
     // Create an existing device in the database
-    const existingDevice = await deviceModel.create({
+    const existingDevice = await createDevice({
       deviceName: "Device to Delete",
       fee: 300,
       linkedIndustry: "Test Industry",
@@ -165,8 +279,8 @@ describe("Device Controller Unit Tests", () => {
       `/api/devices/${existingDevice._id}`
     );
 
-    // Verify the response status code and structure
-    expect(response.status).toBe(200);
+    // Verify the response status code and device data
+    expect(response.status).toBe(HTTP_STATUS_OK);
     expect(response.body.deviceName).toBe("Device to Delete");
     expect(response.body.fee).toBe(300);
 
