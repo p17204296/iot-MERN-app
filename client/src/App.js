@@ -2,6 +2,7 @@ import "./App.css";
 
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Devices from "./pages/Devices/Devices";
 
 const base_url = process.env.REACT_APP_API_URL;
 
@@ -35,6 +36,7 @@ function App() {
   return (
     <div className="App">
       <h1>IoT App - MERN STACK</h1>
+      <Devices />
     </div>
   );
 }
