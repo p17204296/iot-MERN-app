@@ -10,7 +10,7 @@ import {
   TableContainerStyles,
   FilterContainerStyles,
 } from "../pageStyles";
-import TableBody from "../../components/TableBody/TableBody";
+import TableBody from "../../components/TableBody/DevicesTableBody";
 import Search from "../../components/Search/Search";
 
 const base_url = process.env.REACT_APP_API_URL;

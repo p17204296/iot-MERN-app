@@ -10,7 +10,7 @@ import {
   DeviceFeeStyles,
 } from "./TableStyles";
 
-const TableBody = ({ devices }) => {
+const DevicesTableBody = ({ devices }) => {
   let currentDate = new Date();
   console.log(currentDate);
   return (
@@ -44,4 +44,4 @@ const TableBody = ({ devices }) => {
   );
 };
 
-export default TableBody;
+export default DevicesTableBody;
