@@ -20,27 +20,27 @@ function App() {
   }
 
   return (
-    <div className="App">
-      <h1>IoT App - MERN STACK</h1>
-      {/* <Devices /> */}
-
-      {openDevices & !openIndustry ? <Devices /> : <Industries />}
-      <div className="view-selection-div">
-        <button
-          className="view-button active-button"
-          onClick={() => showDevices()}
-        >
-          Devices Page
-        </button>
-        <button
-          data-testid="openIndustryTab"
-          className="view-button active-button"
-          onClick={() => showIndustries()}
-        >
-          Industry Page
-        </button>
+    <>
+      <div className="App">
+        <h1>IoT App - MERN STACK</h1>
+        <div className="view-selection-div">
+          <button
+            className="view-button active-button"
+            onClick={() => showDevices()}
+          >
+            Devices Page
+          </button>
+          <button
+            data-testid="openIndustryTab"
+            className="view-button active-button"
+            onClick={() => showIndustries()}
+          >
+            Industry Page
+          </button>
+        </div>
+        {openDevices & !openIndustry ? <Devices /> : <Industries />}
       </div>
-    </div>
+    </>
   );
 }
 

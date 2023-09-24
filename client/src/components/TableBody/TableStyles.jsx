@@ -46,9 +46,11 @@ export const TitleContainerStyles = styled.div`
   object-fit: contain;
 `;
 
-export const DeviceTitleStyles = styled.p`
+export const IndustryTitleStyles = styled.p`
   font-size: 16px;
   font-weight: 500;
+  font-align: center;
+  width: 100%;
 `;
 
 export const IndustryContainerStyles = styled.div`
