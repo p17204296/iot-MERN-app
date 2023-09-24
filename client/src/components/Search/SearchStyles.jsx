@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const SearchStyles = styled.div`
+export const SearchStyles = styled.input`
   margin-right: 15px;
   height: 40px;
   align-self: center;
