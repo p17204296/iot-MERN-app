@@ -9,7 +9,7 @@ export const WrapperStyles = styled.div`
 `;
 
 export const ContainerStyles = styled.div`
-  width: 1000px;
+  width: 1300px;
   border-radius: 10px;
   box-shadow: var(--box-shadow);
   display: flex;
