@@ -39,6 +39,12 @@ Enter in terminal `npm run dev`
 
 - Should be running on Port 8000 (http://localhost:8000)
 
+**To Run Tests**
+Enter in terminal `npm run test`
+
+- This will run the unit and integration tests
+- The coverage report is available in coverage directory in `index.html` under server
+
 ## Set up Front-End Client
 
 - cd out of backend and cd into frontend client directory: `cd ..\client\`

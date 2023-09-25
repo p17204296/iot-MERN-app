@@ -16,11 +16,11 @@ const Pagination = ({ page, total, limit, setPage }) => {
       {totalPages > 0 &&
         [...Array(totalPages)].map((val, index) =>
           page === index + 1 ? (
-            <ActiveStyles onClick={() => onClick(index)}>
+            <ActiveStyles key={index} onClick={() => onClick(index)}>
               {index + 1}
             </ActiveStyles>
           ) : (
-            <PageBtnStyles onClick={() => onClick(index)}>
+            <PageBtnStyles key={index} onClick={() => onClick(index)}>
               {index + 1}
             </PageBtnStyles>
           )

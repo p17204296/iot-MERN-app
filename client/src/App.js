@@ -4,8 +4,8 @@ import Devices from "./pages/Devices/Devices";
 import Industries from "./pages/Industries/Industries";
 
 function App() {
-  const [openDevices, setDevices] = useState(true);
-  const [openIndustry, setIndustries] = useState(false);
+  const [openDevices, setDevices] = useState(false);
+  const [openIndustry, setIndustries] = useState(true);
 
   function showDevices() {
     setDevices(true);
