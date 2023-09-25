@@ -62,6 +62,8 @@ export const IndustryContainerStyles = styled.div`
 
 export const DeviceIndustryStyles = styled.div`
   font-size: 16px;
+  font-align: left;
+  padding-left: 15px;
   font-weight: 400;
 `;
 

@@ -13,6 +13,7 @@ import {
 import IndustryTableBody from "../../components/TableBody/IndustryTableBody";
 import Search from "../../components/Search/Search";
 import Pagination from "../../components/Pagination/Pagination";
+import Sort from "../../components/Sort/Sort";
 
 const base_url = process.env.REACT_APP_API_URL;
 
@@ -62,7 +63,6 @@ const Devices = () => {
               setPage={(page) => setPage(page)}
             />
           </TableContainerStyles>
-          <FilterContainerStyles>Filter</FilterContainerStyles>
         </BodyStyles>
       </ContainerStyles>
     </WrapperStyles>

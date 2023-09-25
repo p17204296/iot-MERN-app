@@ -13,6 +13,7 @@ import {
 import TableBody from "../../components/TableBody/DevicesTableBody";
 import Search from "../../components/Search/Search";
 import Pagination from "../../components/Pagination/Pagination";
+import Sort from "../../components/Sort/Sort";
 
 const base_url = process.env.REACT_APP_API_URL;
 
@@ -62,7 +63,14 @@ const Devices = () => {
               setPage={(page) => setPage(page)}
             />
           </TableContainerStyles>
-          <FilterContainerStyles>Filter</FilterContainerStyles>
+          <FilterContainerStyles>
+            <Sort sort={sort} setSort={(sort) => setSort(sort)} />
+            {/* <Genre
+              filterGenre={filterGenre}
+              genres={obj.genres ? obj.genres : []}
+              setFilterGenre={(genre) => setFilterGenre(genre)}
+            /> */}
+          </FilterContainerStyles>
         </BodyStyles>
       </ContainerStyles>
     </WrapperStyles>

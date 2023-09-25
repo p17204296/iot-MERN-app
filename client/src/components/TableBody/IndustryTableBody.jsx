@@ -4,6 +4,7 @@ import {
   DeviceStyles,
   TitleContainerStyles,
   IndustryTitleStyles,
+  DeviceIndustryStyles,
 } from "./TableStyles";
 
 const IndustryTableBody = ({ industries }) => {
@@ -12,7 +13,7 @@ const IndustryTableBody = ({ industries }) => {
   return (
     <>
       <HeadingStyles>
-        <TitleTabStyles>Industry Name</TitleTabStyles>
+        <DeviceIndustryStyles>Industry Name:</DeviceIndustryStyles>
       </HeadingStyles>
       {console.log("Table body:", industries)}
       {industries.map((industry) => (
