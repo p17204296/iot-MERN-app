@@ -15,6 +15,7 @@ import Search from "../../components/Search/Search";
 import Pagination from "../../components/Pagination/Pagination";
 import Sort from "../../components/Sort/Sort";
 import AddDevice from "../../components/AddRow/AddDevice";
+import Industry from "../../components/Industry/Industry";
 
 const base_url = process.env.REACT_APP_API_URL;
 
@@ -50,6 +51,8 @@ const Devices = () => {
     };
   }, [sort, filterIndustry, page, search]);
 
+  console.log("OBJ", obj);
+
   return (
     <>
       <WrapperStyles>
@@ -78,11 +81,13 @@ const Devices = () => {
             </TableContainerStyles>
             <FilterContainerStyles>
               <Sort sort={sort} setSort={(sort) => setSort(sort)} />
-              {/* <Genre
-              filterGenre={filterGenre}
-              genres={obj.genres ? obj.genres : []}
-              setFilterGenre={(genre) => setFilterGenre(genre)}
-            /> */}
+              <Industry
+                filterIndustry={filterIndustry}
+                industries={
+                  obj.linkedIndustries ? obj.linkedIndustries : ["All"]
+                }
+                setFilterIndustry={(genre) => setFilterIndustry(genre)}
+              />
             </FilterContainerStyles>
           </BodyStyles>
         </ContainerStyles>

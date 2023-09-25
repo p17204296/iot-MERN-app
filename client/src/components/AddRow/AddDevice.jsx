@@ -98,7 +98,7 @@ function AddDevice() {
             type="text"
             value={fee}
             onChange={handleFeeChange}
-            placeholder="Fee of Device..."
+            placeholder="Fee of Device... (numbers only)"
             required
           />
         </label>
