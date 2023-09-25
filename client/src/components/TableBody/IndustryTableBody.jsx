@@ -46,6 +46,12 @@ const IndustryTableBody = ({ industries }) => {
               {industry.industryName}
             </IndustryTitleStyles>
             <DeviceIndustryStyles>
+              <button onClick={() => newTogglePopup(industry._id, industry)}>
+                Edit
+              </button>
+            </DeviceIndustryStyles>
+
+            <DeviceIndustryStyles>
               <button onClick={() => deleteIndustry(industry._id)}>
                 Delete
               </button>

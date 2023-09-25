@@ -65,6 +65,7 @@ export const DeviceIndustryStyles = styled.div`
   font-align: left;
   padding-left: 15px;
   font-weight: 400;
+  margin-right: 15px;
 `;
 
 export const FeeContainerStyles = styled.div`

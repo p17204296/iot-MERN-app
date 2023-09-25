@@ -1,11 +1,11 @@
 import "./App.css";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Devices from "./pages/Devices/Devices";
 import Industries from "./pages/Industries/Industries";
 
 function App() {
-  const [openDevices, setDevices] = useState(false);
-  const [openIndustry, setIndustries] = useState(true);
+  const [openDevices, setDevices] = useState(true);
+  const [openIndustry, setIndustries] = useState(false);
 
   function showDevices() {
     setDevices(true);

@@ -23,7 +23,7 @@ const Devices = () => {
     sort: "_id",
     order: "desc",
   });
-  // const [filterIndustry, setFilterIndustry] = useState("All");
+
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
 

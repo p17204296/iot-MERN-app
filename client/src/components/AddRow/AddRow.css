@@ -1,8 +1,6 @@
-/* @import "~antd/dist/antd.css"; */
-
 
 form {
-  text-align: left;
+  text-align: center;
 }
 
 form label,
@@ -18,7 +16,7 @@ label select {
   width: 100%;
   padding: 15px;
   margin-top: 10px;
-  border: rgba(112, 112, 112, 0.25);
+  border: 2px solid rgba(0, 0, 0, 0.1); 
 }
 
 form label {

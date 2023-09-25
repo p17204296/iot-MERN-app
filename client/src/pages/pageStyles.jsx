@@ -6,6 +6,7 @@ export const WrapperStyles = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-bottom: 20px;
 `;
 
 export const ContainerStyles = styled.div`
@@ -35,7 +36,7 @@ export const HeadingStyles = styled.div`
 `;
 
 export const BodyStyles = styled.div`
-  height: 500px;
+  height: 400px;
   display: flex;
 `;
 

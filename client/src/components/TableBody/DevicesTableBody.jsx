@@ -1,45 +1,76 @@
+import React, { useState } from "react";
+import moment from "moment";
+import EditDevice from "../EditRow/EditDevice";
+
 import {
   HeadingStyles,
   TitleTabStyles,
   DeviceStyles,
-  TitleContainerStyles,
-  DeviceTitleStyles,
   IndustryContainerStyles,
-  DeviceIndustryStyles,
   FeeContainerStyles,
   DeviceFeeStyles,
 } from "./TableStyles";
 
-const DevicesTableBody = ({ devices }) => {
-  let currentDate = new Date();
-  console.log(currentDate);
+const base_url = process.env.REACT_APP_API_URL;
+
+const DevicesTableBody = ({ devices, linkedIndustries }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [popUpID, setPopUpID] = useState("");
+  const [popUpDetails, setPopUpDetails] = useState({});
+
+  const deleteDevice = async (deviceId) => {
+    await fetch(`${base_url}/api/devices/${deviceId}`, {
+      method: "DELETE",
+    });
+  };
+
+  const togglePopup = () => {
+    setIsOpen(!isOpen);
+  };
+
+  function newTogglePopup(deviceID, device) {
+    setIsOpen(!isOpen);
+    setPopUpID(deviceID);
+    setPopUpDetails(device);
+  }
+
   return (
     <>
       <HeadingStyles>
-        <TitleTabStyles>Device Name</TitleTabStyles>
+        <DeviceFeeStyles>Device Name</DeviceFeeStyles>
         <TitleTabStyles>Linked Industry</TitleTabStyles>
         <TitleTabStyles>Fee</TitleTabStyles>
         <TitleTabStyles>Warehouse Addition Time</TitleTabStyles>
+        <TitleTabStyles>Action</TitleTabStyles>
       </HeadingStyles>
-      {console.log("Table body:", devices)}
       {devices.map((device) => (
         <DeviceStyles key={device._id}>
-          <TitleContainerStyles>
-            <DeviceIndustryStyles>{device.deviceName}</DeviceIndustryStyles>
-          </TitleContainerStyles>
+          <DeviceFeeStyles>{device.deviceName}</DeviceFeeStyles>
           <IndustryContainerStyles>
-            <DeviceIndustryStyles>{device.linkedIndustry}</DeviceIndustryStyles>
+            {device.linkedIndustry}
           </IndustryContainerStyles>
+          <FeeContainerStyles>£{device.fee}</FeeContainerStyles>
           <FeeContainerStyles>
-            <DeviceIndustryStyles>£{device.fee}</DeviceIndustryStyles>
+            {moment(device.warehouseAdditionTime).format(
+              "MMMM Do YYYY, h:mm a"
+            )}
           </FeeContainerStyles>
           <FeeContainerStyles>
-            <DeviceIndustryStyles>
-              {device.warehouseAdditionTime}
-            </DeviceIndustryStyles>
+            <button onClick={() => newTogglePopup(device._id, device)}>
+              Edit
+            </button>
+            <button onClick={() => deleteDevice(device._id)}>Delete</button>
           </FeeContainerStyles>
         </DeviceStyles>
       ))}
+      {isOpen && (
+        <EditDevice
+          handleClose={togglePopup}
+          deviceID={popUpID}
+          deviceDetails={popUpDetails}
+          linkedIndustries={linkedIndustries}
+        />
+      )}
     </>
   );
 };
