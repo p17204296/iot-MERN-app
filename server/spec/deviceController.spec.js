@@ -166,7 +166,7 @@ describe("Device Controller Unit Tests", () => {
     });
     await createDevice({
       deviceName: "Test Device 3",
-      fee: 300,
+      fee: 400,
       linkedIndustry: "Test Industry",
     });
 
