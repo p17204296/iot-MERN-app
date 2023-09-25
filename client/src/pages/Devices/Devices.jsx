@@ -12,6 +12,7 @@ import {
 } from "../pageStyles";
 import TableBody from "../../components/TableBody/DevicesTableBody";
 import Search from "../../components/Search/Search";
+import Pagination from "../../components/Pagination/Pagination";
 
 const base_url = process.env.REACT_APP_API_URL;
 
@@ -54,6 +55,12 @@ const Devices = () => {
         <BodyStyles>
           <TableContainerStyles>
             <TableBody devices={obj.devices ? obj.devices : []} />
+            <Pagination
+              page={page}
+              limit={obj.limit ? obj.limit : 0}
+              total={obj.total ? obj.total : 0}
+              setPage={(page) => setPage(page)}
+            />
           </TableContainerStyles>
           <FilterContainerStyles>Filter</FilterContainerStyles>
         </BodyStyles>

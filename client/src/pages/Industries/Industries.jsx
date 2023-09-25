@@ -12,6 +12,7 @@ import {
 } from "../pageStyles";
 import IndustryTableBody from "../../components/TableBody/IndustryTableBody";
 import Search from "../../components/Search/Search";
+import Pagination from "../../components/Pagination/Pagination";
 
 const base_url = process.env.REACT_APP_API_URL;
 
@@ -53,6 +54,12 @@ const Devices = () => {
           <TableContainerStyles>
             <IndustryTableBody
               industries={obj.industries ? obj.industries : []}
+            />
+            <Pagination
+              page={page}
+              limit={obj.limit ? obj.limit : 0}
+              total={obj.total ? obj.total : 0}
+              setPage={(page) => setPage(page)}
             />
           </TableContainerStyles>
           <FilterContainerStyles>Filter</FilterContainerStyles>

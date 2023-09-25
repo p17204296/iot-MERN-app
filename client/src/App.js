@@ -1,8 +1,6 @@
 import "./App.css";
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import Devices from "./pages/Devices/Devices";
-
 import Industries from "./pages/Industries/Industries";
 
 function App() {
