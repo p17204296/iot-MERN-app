@@ -14,14 +14,16 @@ function AddDevice() {
   useEffect(() => {
     const fetchIndustryData = async () => {
       try {
-        const response = await axios.get(`${base_url}/api/industries`);
+        const response = await axios.get(
+          `${base_url}/api/industries/?&limit=20`
+        );
         const industriesData = response.data;
 
         if (industriesData.industries) {
           setOptions(
             industriesData.industries.map((industry) => ({
-              key: industry.industryName,
-              value: industry._id,
+              key: industry._id,
+              value: industry.industryName,
             }))
           );
         }
@@ -86,8 +88,8 @@ function AddDevice() {
           >
             <option value="">Select an Industry</option>
             {options.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.key}
+              <option key={option.key} value={option.value}>
+                {option.value}
               </option>
             ))}
           </select>
