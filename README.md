@@ -32,6 +32,11 @@ The application should be able to support:
 - Install nodeJS
 
 - cd into server directory: `cd .\server\`
+
+### Set up Environment Variables for server
+
+- Rename the .env.example file to `.env` in here is where we store the PORT the MONGO_URI for the database TEST_MONGO_URI the test database
+
 - To install the front end dependencies enter: `npm install`
 
 **To Run Backend Server**
@@ -48,5 +53,16 @@ Enter in terminal `npm run test`
 ## Set up Front-End Client
 
 - cd out of backend and cd into frontend client directory: `cd ..\client\`
+
+### Set up Environment Variables for client
+
+- Rename the .env.example file to `.env` in here is where we store the `REACT_APP_API_URL` which is the server (backend) URL
+
   > **Note**: If you come across problems in powershell enter this command in terminal `Set-ExecutionPolicy -ExecutionPolicy RemoteSigned`
+
 - To install the front end dependencies enter: `npm install`
+
+**To Run Client Server**
+Enter in terminal `npm start`
+
+- Should be running on Port 3000 (http://localhost:3000)
