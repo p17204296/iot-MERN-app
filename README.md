@@ -37,7 +37,7 @@ The application should be able to support:
 
 - Rename the .env.example file to `.env` in here is where we store the PORT the MONGO_URI for the database TEST_MONGO_URI the test database
 
-- To install the front end dependencies enter: `npm install`
+- To install the server end dependencies enter: `npm install`
 
 **To Run Backend Server**
 Enter in terminal `npm run dev`
