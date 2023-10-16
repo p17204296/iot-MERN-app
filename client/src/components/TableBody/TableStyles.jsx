@@ -5,6 +5,7 @@ export const HeadingStyles = styled.div`
   align-items: center;
   justify-content: space-between;
   height: 60px;
+  padding-left: 20px;
   text-align: center;
   font-size: 18px;
   font-weight: bold;
@@ -26,6 +27,7 @@ export const TitleTabStyles = styled.p`
 export const DeviceStyles = styled.div`
   display: flex;
   align-items: center;
+  padding-left: 20px;
   height: 70px;
   margin: 5px 10px;
   box-shadow: var(--box-shadow);
