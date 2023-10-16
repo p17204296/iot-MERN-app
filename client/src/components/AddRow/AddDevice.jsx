@@ -72,6 +72,7 @@ function AddDevice() {
         <label>
           DeviceName*
           <input
+            className="add-issue-input"
             type="text"
             value={deviceName}
             onChange={(event) => setDeviceName(event.target.value)}
@@ -98,6 +99,7 @@ function AddDevice() {
           Fee*
           <input
             type="text"
+            className="add-issue-input"
             value={fee}
             onChange={handleFeeChange}
             placeholder="Fee of Device... (numbers only)"

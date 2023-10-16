@@ -1,4 +1,9 @@
-
+.add-issue{
+  padding: 0px 20px;
+}
+.add-issue-input{
+  width: 92.5%;
+}
 form {
   text-align: center;
 }
@@ -13,7 +18,7 @@ label select {
 
 label input,
 label select {
-  width: 100%;
+  width: 95%;
   padding: 15px;
   margin-top: 10px;
   border: 2px solid rgba(0, 0, 0, 0.1); 
